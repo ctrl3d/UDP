@@ -318,7 +318,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3001667310355295633, guid: e7f22b9baaa8f5241a0a13e54546f6af, type: 3}
       propertyPath: m_Name
-      value: UDPBehaviour
+      value: UnityUDP
       objectReference: {fileID: 0}
     - target: {fileID: 6231958179199719946, guid: e7f22b9baaa8f5241a0a13e54546f6af, type: 3}
       propertyPath: m_LocalPosition.x

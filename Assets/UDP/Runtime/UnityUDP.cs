@@ -1,14 +1,13 @@
-using System;
+#if USE_ALCHEMY
+#if USE_UNITY_EXTENSIONS
 using System.Net;
+using Alchemy.Inspector;
 using UnityEngine;
 using UnityEngine.Events;
-#if ALCHEMY_SUPPORT
-using Alchemy.Inspector;
-#endif
 
 namespace work.ctrl3d
 {
-    public class UDPBehaviour : MonoBehaviour
+    public class UnityUDP : MonoBehaviour
     {
         [Header("Settings")] [SerializeField] private int port = 5555;
         [SerializeField] private EncodingType encodingType = EncodingType.UTF8;
@@ -18,9 +17,6 @@ namespace work.ctrl3d
 
         [Header("Events")] public UnityEvent<byte[], IPEndPoint> onBytesReceived;
         public UnityEvent<string, IPEndPoint> onStringReceived;
-
-        public Action<byte[], IPEndPoint> OnBytesReceived;
-        public Action<string, IPEndPoint> OnStringReceived;
 
         public int Port => port;
         public EncodingType EncodingType => encodingType;
@@ -35,7 +31,6 @@ namespace work.ctrl3d
         private void OnStringReceivedHandler(string message, IPEndPoint endPoint)
         {
             onStringReceived?.Invoke(message, endPoint);
-            OnStringReceived?.Invoke(message, endPoint);
 
             if (!useLog) return;
             Debug.Log($"UDP {endPoint.Address}:{endPoint.Port} -> {message}".WithColor(logColor));
@@ -44,13 +39,10 @@ namespace work.ctrl3d
         private void OnBytesReceivedHandler(byte[] bytes, IPEndPoint endPoint)
         {
             onBytesReceived?.Invoke(bytes, endPoint);
-            OnBytesReceived?.Invoke(bytes, endPoint);
         }
 
 
-#if ALCHEMY_SUPPORT
         [Button, HorizontalGroup("Buttons")]
-#endif
         public void Listen()
         {
             _udp = new UDP(port, encodingType.ToEncoding());
@@ -62,9 +54,8 @@ namespace work.ctrl3d
             Debug.Log($"<b>[{name}]</b> Listening for UDP packets on port {port}".WithColor(logColor));
         }
 
-#if ALCHEMY_SUPPORT
+
         [Button, HorizontalGroup("Buttons")]
-#endif
         public void Close()
         {
             _udp.OnStringReceived -= OnStringReceivedHandler;
@@ -78,9 +69,7 @@ namespace work.ctrl3d
         }
 
 
-#if ALCHEMY_SUPPORT
         [Button]
-#endif
         public void SendString(string message, string ipAddress, int port)
         {
             if (_udp != null)
@@ -118,3 +107,5 @@ namespace work.ctrl3d
         }
     }
 }
+#endif
+#endif

@@ -16,7 +16,12 @@
         {
             "name": "com.annulusgames.alchemy",
             "expression": "",
-            "define": "ALCHEMY_SUPPORT"
+            "define": "USE_ALCHEMY"
+        },
+        {
+            "name": "work.ctrl3d.unity-extensions",
+            "expression": "",
+            "define": "USE_UNITY_EXTENSIONS"
         }
     ],
     "noEngineReferences": false
